@@ -1,31 +1,63 @@
 <template lang="">
-   <DisplayMessage :snackbar="snackbar" :snackbarConf="snackbarConf" @closemessage="closemessage"/>
-    <v-app-bar class="px-3" density="compact" flat>
-      <div class="text-center">
-            <v-menu  v-model="menu" :close-on-content-click="false" location="end">
-               <template v-slot:activator="{ props }">
-                  <v-btn v-bind="props">
-                     <v-avatar class="hidden-sm-and-down" color="grey-darken-1" size="32"><img src="https://picsum.photos/id/237/200/300"
-                        width="50" height="50" /></v-avatar>
-                  </v-btn>
-               </template>
-<v-card min-width="300">
-   <v-list>
-      <v-list-item>
-         <v-btn class="w-100" @click.prevent="logout">Logout</v-btn>
-      </v-list-item>
-   </v-list>
-</v-card>
-</v-menu>
-</div>
-<v-spacer />
-<v-tabs color="grey-darken-2" centered>
-   <router-link v-for="(link,index) in links" :key="index" :to="link.to">
-      <v-tab :text="link.name" />
-   </router-link>
-</v-tabs>
-<v-spacer />
-</v-app-bar>
+  <DisplayMessage
+    :snackbar="snackbar"
+    :snackbar-conf="snackbarConf"
+    @closemessage="closemessage"
+  />
+  <v-app-bar
+    class="px-3"
+    density="compact"
+    flat
+  >
+    <div class="text-center">
+      <v-menu
+        :close-on-content-click="false"
+        location="end"
+      >
+        <template #activator="{ props }">
+          <v-btn v-bind="props">
+            <v-avatar
+              class="hidden-sm-and-down"
+              color="grey-darken-1"
+              size="32"
+            >
+              <img
+                src="https://picsum.photos/id/237/200/300"
+                width="50"
+                height="50"
+              >
+            </v-avatar>
+          </v-btn>
+        </template>
+        <v-card min-width="300">
+          <v-list>
+            <v-list-item>
+              <v-btn
+                class="w-100"
+                @click.prevent="logout"
+              >
+                Logout
+              </v-btn>
+            </v-list-item>
+          </v-list>
+        </v-card>
+      </v-menu>
+    </div>
+    <v-spacer />
+    <v-tabs
+      color="grey-darken-2"
+      centered
+    >
+      <router-link
+        v-for="(link,index) in links"
+        :key="index"
+        :to="link.to"
+      >
+        <v-tab :text="link.name" />
+      </router-link>
+    </v-tabs>
+    <v-spacer />
+  </v-app-bar>
 </template>
 <script setup>
 import { reactive, ref } from 'vue';
@@ -46,10 +78,6 @@ const links = ref([
    { name: 'Dashboard', to: '/' },
    { name: 'Surveys', to: '/surveys' },
 ])
-const fav = ref(false)
-const menu = ref(false)
-const message = ref(false)
-const hints = ref(false)
 
 const logout = async () => {
    const res = await auth.logout()

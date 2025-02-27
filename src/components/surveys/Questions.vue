@@ -1,40 +1,87 @@
 <template lang="">
-    <v-row class=" justify-space-between mt-2">
-      <v-col cols="4">
-        <strong> Question </strong>
-      </v-col>
-    </v-row>
+  <v-row class=" justify-space-between mt-2">
+    <v-col cols="4">
+      <strong> Question </strong>
+    </v-col>
+  </v-row>
+  
+  <v-container
+    fluid
+    class="pa-0"
+  >
     <v-row>
-      <v-col cols="12" v-for="(question,index) in fields" :key="index">
-        <v-col class="text-end"  cols="12">
-            <v-btn  type="button" @click="addQuestion" icon="mdi-plus" variant="text" v-if="index == (fields.length-1)" >
-            </v-btn>
-            <v-btn  type="button" @click="deletQuestion(index)" icon="mdi-trash-can" variant="text" color="red" v-if="index != 0">
-            </v-btn>
-        </v-col>
-        <v-text-field label="Question" v-model="question.value.question" :error-messages="errors[`questions[${index}].question`]"></v-text-field>
-        <v-select
+      <v-col
+        v-for="(question,index) in fields"
+        :key="index"
+        cols="12"
+      >
+        <v-row>
+          <v-col
+            v-if="index == (fields.length-1)"
+            class="text-start"
+            cols="8"
+          >
+            Add Question
+          </v-col>
+          <v-col
+            class="text-end"
+            :cols="index != (fields.length-1) ? 12 : 4"
+          >
+            <v-btn
+              v-if="index == (fields.length-1)"
+              type="button"
+              icon="mdi-plus"
+              variant="text"
+              @click="addQuestion"
+            />
+            <v-btn
+              v-if="index != 0"
+              type="button"
+              icon="mdi-trash-can"
+              variant="text"
+              color="red"
+              @click="deletQuestion(index)"
+            />
+          </v-col>
+        </v-row>
+        <v-card
+          variant="text"
+          class="mx-auto m-2 pa-1 border-b-thin "
+        >
+          <v-text-field
+            v-model="question.value.question"
+            label="Question"
+            :error-messages="errors[`questions[${index}].question`]"
+          />
+          <v-select
+            v-model="question.value.type"
             label="Question Type"
             :items="config.questionTypeOption"
             item-title="value"
             item-value="key"
-            v-model="question.value.type"
             :error-messages="errors[`questions[${index}].type`]"
-            @update:modelValue="changeQuestionType"
-        ></v-select>
-        <v-textarea label="Description" v-model="question.value.description" ></v-textarea>
-        <v-divider v-if="['select','checkbox','radio'].includes(question.value.type)"></v-divider>
-        <!-- {{question.value.type}} -->
-        <Options v-if="['select','checkbox','radio'].includes(question.value.type)" :qidx="index" :option-type="question.value.type"/>
+          />
+          <v-textarea
+            v-model="question.value.description"
+            label="Description"
+          />
+          <v-divider v-if="['select','checkbox','radio'].includes(question.value.type)" />
+          <Options
+            v-if="['select','checkbox','radio'].includes(question.value.type)"
+            :qidx="index"
+            :option-type="question.value.type"
+          />
+        </v-card>
       </v-col>
     </v-row>
+  </v-container>
 </template>
 <script setup>
-import { ref, reactive } from 'vue'
 import { useFieldArray, useFormErrors } from 'vee-validate'
-import config from '@/config'
-const { fields, insert, push, remove } = useFieldArray('questions')
+import config from '@/config';
+const { fields,  push, remove } = useFieldArray('questions')
 const errors  = useFormErrors()
+
 function addQuestion(){
     push({
             question:'',
@@ -50,11 +97,6 @@ function deletQuestion(idx){
     remove(idx)
 }
 
-function changeQuestionType(val){
-    if(['select','checkbox','radio'].includes(val)){
-        // console.log('sdsd',val)
-    }
-}
 </script>
 <style lang="">
 

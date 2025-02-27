@@ -1,21 +1,27 @@
 <template lang="">
-    <Navigationbar />
-    <v-app-bar color="grey-lighten-2  m-4" name="app-bar">
-        <v-app-bar-title>Create Surveys</v-app-bar-title>
-        <v-spacer></v-spacer>
-    </v-app-bar>
+  <Navigationbar />
+  <v-app-bar
+    color="grey-lighten-2  m-4"
+    name="app-bar"
+  >
+    <v-app-bar-title>Create Surveys</v-app-bar-title>
+    <v-spacer />
+  </v-app-bar>
     
-     <v-container>
-        <form @submit.prevent="submit">
-            <SurveyForm :serveyImage="formData.image"/>
-            <v-btn class="me-4" type="submit">
-                submit
-            </v-btn>
-            <v-btn  @click="goToSurveys">
-                Cancel
-            </v-btn>
-        </form>
-    </v-container>
+  <v-container>
+    <form @submit.prevent="submit">
+      <SurveyForm :servey-image="formData.image" />
+      <v-btn
+        class="me-4"
+        type="submit"
+      >
+        submit
+      </v-btn>
+      <v-btn @click="goToSurveys">
+        Cancel
+      </v-btn>
+    </form>
+  </v-container>
 </template>
 <script setup>
 import { useRouter, useRoute } from 'vue-router';
@@ -85,7 +91,7 @@ let surveySchema = yup.object({
     )
 });
 
-const { validate, errors, values, resetForm } = useForm({
+const { validate,  values, resetForm } = useForm({
     validationSchema: surveySchema,
     initialValues: formData.value
 })
@@ -146,15 +152,6 @@ function goToSurveys(){
     router.push({path:'/surveys'})
 }
 
-const urlToObject= async(imagePath)=> {
-    if(imagePath){
-        const response = await fetch(imagePath);
-        // here image is url/location of image
-        const blob = await response.blob();
-        const file = new File([blob], 'image.jpg', {type: blob.type});
-        formData.value.image  = file
-    }
-}
 </script>
 <style lang="">
 

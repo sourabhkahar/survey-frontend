@@ -1,31 +1,45 @@
 <template lang="">
-    <v-snackbar v-model="snackbar" multi-line :timeout="3000" :color="snackbarConf.color">
-        {{ snackbarConf.text }}
+  <v-snackbar
+    v-model="snackbar"
+    multi-line
+    :timeout="3000"
+    :color="snackbarConf.color"
+  >
+    {{ snackbarConf.text }}
+    <template #actions>
+      <v-btn
+        color="white"
+        variant="text"
+        @click="snackbar = false"
+      >
+        Cancel
+      </v-btn>
+    </template>
+  </v-snackbar>
 
-        <template v-slot:actions>
-            <v-btn color="white" variant="text" @click="snackbar = false">
-                Cancel
-            </v-btn>
-        </template>
-    </v-snackbar>
-
-    <Navigationbar />
-    <v-app-bar color="grey-lighten-2  m-4" name="app-bar">
-        <v-app-bar-title>Create Surveys</v-app-bar-title>
-            <v-spacer></v-spacer>
-    </v-app-bar>
+  <Navigationbar />
+  <v-app-bar
+    color="grey-lighten-2  m-4"
+    name="app-bar"
+  >
+    <v-app-bar-title>Create Surveys</v-app-bar-title>
+    <v-spacer />
+  </v-app-bar>
     
-     <v-container>
-        <form @submit.prevent="submit">
-            <SurveyForm/>
-            <v-btn class="me-4" type="submit">
-                submit
-            </v-btn>
-            <v-btn @click="goToSurveys" >
-                Cancel
-            </v-btn>
-        </form>
-    </v-container>
+  <v-container>
+    <form @submit.prevent="submit">
+      <SurveyForm />
+      <v-btn
+        class="me-4"
+        type="submit"
+      >
+        submit
+      </v-btn>
+      <v-btn @click="goToSurveys">
+        Cancel
+      </v-btn>
+    </form>
+  </v-container>
 </template>
 <script setup>
 import { useRouter } from 'vue-router';
@@ -95,7 +109,7 @@ let surveySchema = yup.object({
     )
 });
 
-const { validate, errors, values } = useForm({
+const { validate, values } = useForm({
     validationSchema: surveySchema,
     initialValues: formData
 })

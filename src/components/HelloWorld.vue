@@ -10,7 +10,6 @@
 
 <script setup>
 import { useCounterStore } from '@/store/index.js'
-import AppFooter from './AppFooter.vue';
 const counter = useCounterStore()
 //
 </script>

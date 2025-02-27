@@ -1,16 +1,26 @@
 <template>
-    <v-snackbar v-model="isMessageShown" multi-line :timeout="3000" :color="snackbarConf.color">
-        {{ snackbarConf.text }}
-        <template v-slot:actions>
-            <v-btn color="white" variant="text" @click="closeMessage()">
-                Close
-            </v-btn>
-        </template>
-    </v-snackbar>
+  <v-snackbar
+    v-model="isMessageShown"
+    multi-line
+    :timeout="3000"
+    :color="snackbarConf.color"
+  >
+    {{ snackbarConf.text }}
+    <template #actions>
+      <v-btn
+        color="white"
+        variant="text"
+        @click="closeMessage()"
+      >
+        Close
+      </v-btn>
+    </template>
+  </v-snackbar>
 </template>
 <script setup>
 import { ref, watch } from 'vue';
 const isMessageShown = ref(false)
+defineEmits(['closemessage'])
 const props = defineProps({
     snackbar: {
         required: true,
@@ -22,7 +32,7 @@ const props = defineProps({
     }
 })
 
-watch(() => props.snackbar, (newval, oldval) => {
+watch(() => props.snackbar, (newval) => {
     isMessageShown.value = newval
 })
 

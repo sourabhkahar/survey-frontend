@@ -1,53 +1,83 @@
 <template lang="">
-    <Navigationbar />
-    <v-app-bar color="grey-lighten-2  m-4" name="app-bar">
-        <v-app-bar-title>Surveys</v-app-bar-title>
-            <v-spacer></v-spacer>
-            <v-btn  elevation="3" class="mr-4" @click="addSurvey">
-                Add Surveys
-            </v-btn>
-    </v-app-bar>
-    <v-container>
-        <v-snackbar v-model="snackbar" multi-line :timeout="3000" :color="snackbarConf.color">
-            {{ snackbarConf.text }}
-                <template v-slot:actions>
-                    <v-btn color="white" variant="text" @click="snackbar = false">
-                        Close
-                    </v-btn>
-                </template>
-        </v-snackbar>
-        <v-row>
-            <SurveyCard v-for="(survey,index) in surveys" :key="index" @openDeleteConfirmModal="openDeleteConfirmModal" @goToEdit="goToEdit" :survey="survey"/>
-            <v-container>
-                <v-row justify="center">
-                    <v-col cols="8">
-                    <v-container class="max-width">
-                        <v-pagination
-                        v-model="paginationLink.current_page"
-                        :length="paginationLink.last_page"
-                        @update:modelValue="onChangePage"
-                        class="my-4"
-                        ></v-pagination>
-                    </v-container>
-                    </v-col>
-                </v-row>
+  <Navigationbar />
+  <v-app-bar
+    color="grey-lighten-2  m-4"
+    name="app-bar"
+  >
+    <v-app-bar-title>Surveys</v-app-bar-title>
+    <v-spacer />
+    <v-btn
+      elevation="3"
+      class="mr-4"
+      @click="addSurvey"
+    >
+      Add Surveys
+    </v-btn>
+  </v-app-bar>
+  <v-container>
+    <v-snackbar
+      v-model="snackbar"
+      multi-line
+      :timeout="3000"
+      :color="snackbarConf.color"
+    >
+      {{ snackbarConf.text }}
+      <template #actions>
+        <v-btn
+          color="white"
+          variant="text"
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </template>
+    </v-snackbar>
+    <v-row>
+      <SurveyCard
+        v-for="(surveyItem,index) in surveys"
+        :key="index"
+        :survey="surveyItem"
+        @open-delete-confirm-modal="openDeleteConfirmModal"
+        @go-to-edit="goToEdit"
+      />
+      <v-container>
+        <v-row justify="center">
+          <v-col cols="8">
+            <v-container class="max-width">
+              <v-pagination
+                v-model="paginationLink.current_page"
+                :length="paginationLink.last_page"
+                class="my-4"
+                @update:model-value="onChangePage"
+              />
             </v-container>
+          </v-col>
         </v-row>
-    </v-container>
+      </v-container>
+    </v-row>
+  </v-container>
 
-    <v-dialog v-model="isConfirmModalOpen" max-width="400" persistent>
-        <v-card prepend-icon="mdi-map-marker" text="Do you want to delete survey?" title="Delete survey?">
-            <template v-slot:actions>
-            <v-spacer></v-spacer>
-            <v-btn @click="deleteSurvey">
-                Yes
-            </v-btn>
-            <v-btn @click="isConfirmModalOpen = false">
-                No
-            </v-btn>
-            </template>
-        </v-card>
-    </v-dialog>
+  <v-dialog
+    v-model="isConfirmModalOpen"
+    max-width="400"
+    persistent
+  >
+    <v-card
+      prepend-icon="mdi-map-marker"
+      text="Do you want to delete survey?"
+      title="Delete survey?"
+    >
+      <template #actions>
+        <v-spacer />
+        <v-btn @click="deleteSurvey">
+          Yes
+        </v-btn>
+        <v-btn @click="isConfirmModalOpen = false">
+          No
+        </v-btn>
+      </template>
+    </v-card>
+  </v-dialog>
 </template>
 <script setup>
 
@@ -62,66 +92,67 @@ const paginationLink = ref([])
 const isConfirmModalOpen = ref(false)
 const selectedRec = ref(null)
 const snackbar = ref(false)
-const pagination = ref({...config.pagination})
+const pagination = ref({ ...config.pagination })
 const snackbarConf = reactive({
-    color: 'error',
-    text: 'Something went wrong!'
+  color: 'error',
+  text: 'Something went wrong!'
 })
 
 function openDeleteConfirmModal(id) {
-    isConfirmModalOpen.value = true;
-    selectedRec.value = id
+  isConfirmModalOpen.value = true;
+  selectedRec.value = id
 }
 
 async function deleteSurvey() {
-    try {
-        const res = await survey.deleteSurvey(selectedRec.value);
-        if (res.data.status == config.status.success) {
-            snackbarConf.color = config.statuscolor.success
-            snackbarConf.text = 'Survey Deleted Successfully'
-            getSurveyList()
-        }
-        snackbar.value = true
-    } catch (error) {
-        snackbar.value = true
+  try {
+    const res = await survey.deleteSurvey(selectedRec.value);
+    if (res.data.status == config.status.success) {
+      snackbarConf.color = config.statuscolor.success
+      snackbarConf.text = 'Survey Deleted Successfully'
+      getSurveyList()
     }
-    isConfirmModalOpen.value = false;
+    snackbar.value = true
+  } catch (error) {
+    console.log(error)
+    snackbar.value = true
+  }
+  isConfirmModalOpen.value = false;
 }
 
 function addSurvey() {
-    router.push({ path: '/surveys/create' })
+  router.push({ path: '/surveys/create' })
 }
 
-function onChangePage(item){
-    pagination.value.page = item
-    getSurveyList()
+function onChangePage(item) {
+  pagination.value.page = item
+  getSurveyList()
 }
 onMounted(() => {
-    getSurveyList();
+  getSurveyList();
 })
 
 async function getSurveyList() {
-    const res = await survey.getSurveies(pagination.value)
-    if (res.status == 200) {
-        surveys.value = res.data.data
-        paginationLink.value = res.data.meta
-        pagination.value.total = res.data.meta.total
-    } else {
-        console.log('error');
-    }
+  const res = await survey.getSurveies(pagination.value)
+  if (res.status == 200) {
+    surveys.value = res.data.data
+    paginationLink.value = res.data.meta
+    pagination.value.total = res.data.meta.total
+  } else {
+    console.log('error');
+  }
 }
 
 function goToEdit(id) {
-    router.push({ path: `/surveys/${id}` })
+  router.push({ path: `/surveys/${id}` })
 }
 
 
 </script>
 <route lang="json">{
-    "name": "surveys",
-    "meta": {
-        "requiresAuth": true
-    }
+  "name": "surveys",
+  "meta": {
+    "requiresAuth": true
+  }
 }</route>
 
 <style lang="">

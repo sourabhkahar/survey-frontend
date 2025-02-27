@@ -6,11 +6,15 @@ export const useSurvey = () => {
     const getSurvey = (id) => http.get(`survey/${id}`);
     const updateSurvey = (id,data) => http.put(`survey/${id}`,data);
     const deleteSurvey = (id) => http.delete(`survey/${id}`);
+
+    const getSurveyForUser = (slug) => http.get(`test/${slug}`);
+
     return {
         createSurvey,
         getSurveies,
         getSurvey,
         updateSurvey,
-        deleteSurvey
+        deleteSurvey,
+        getSurveyForUser
     }
 }
