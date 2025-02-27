@@ -37,7 +37,7 @@
 </template>
 <script setup>
 import { useRouter } from "vue-router";
-const router = useRouter
+const router = useRouter()
 defineEmits(['openDeleteConfirmModal', 'goToEdit'])
 const props = defineProps({
                     survey:{

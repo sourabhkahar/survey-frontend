@@ -84,7 +84,7 @@ let surveySchema = yup.object({
             description: yup.string(),
             options: yup.array().of(
                 yup.object({
-                    title: yup.string()
+                    title: yup.string().nullable()
                 })
             )
         })

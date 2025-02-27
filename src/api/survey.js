@@ -8,13 +8,14 @@ export const useSurvey = () => {
     const deleteSurvey = (id) => http.delete(`survey/${id}`);
 
     const getSurveyForUser = (slug) => http.get(`test/${slug}`);
-
+    const submitSurveyAnswer = (id,data) => http.post(`submit-survey/${id}`,data)
     return {
         createSurvey,
         getSurveies,
         getSurvey,
         updateSurvey,
         deleteSurvey,
-        getSurveyForUser
+        getSurveyForUser,
+        submitSurveyAnswer
     }
 }
