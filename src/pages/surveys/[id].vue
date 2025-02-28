@@ -153,6 +153,13 @@ function goToSurveys(){
 }
 
 </script>
+
+<route lang="json">{
+    "name": "edit-survey",
+    "meta": {
+      "requiresAuth": true
+    }
+  }</route>
 <style lang="">
 
 </style>

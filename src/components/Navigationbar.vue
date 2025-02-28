@@ -11,29 +11,38 @@
   >
     <div class="text-center">
       <v-menu
+        v-model="menu"
         :close-on-content-click="false"
         location="end"
       >
         <template #activator="{ props }">
-          <v-btn v-bind="props">
-            <v-avatar
-              class="hidden-sm-and-down"
-              color="grey-darken-1"
-              size="32"
-            >
-              <img
-                src="https://picsum.photos/id/237/200/300"
-                width="50"
-                height="50"
-              >
-            </v-avatar>
-          </v-btn>
+          <v-avatar
+            size="36px"
+            v-bind="props"
+            class="cursor-pointer"
+          >
+            <v-img
+              alt="Avatar"
+              src="https://cdn.vuetifyjs.com/images/john.jpg"
+            />
+          </v-avatar>
         </template>
+
         <v-card min-width="300">
+          <v-list>
+            <v-list-item
+              prepend-avatar="https://cdn.vuetifyjs.com/images/john.jpg"
+              subtitle="Founder of Vuetify"
+              title="John Leider"
+            />
+          </v-list>
+
+          <v-divider />
+
           <v-list>
             <v-list-item>
               <v-btn
-                class="w-100"
+                class="w-100 text-start"
                 @click.prevent="logout"
               >
                 Logout
@@ -73,6 +82,7 @@ const snackbarConf = reactive({
    color: 'error',
    text: 'Something went wrong!'
 })
+const menu = ref(false)
 
 const links = ref([
    { name: 'Dashboard', to: '/' },

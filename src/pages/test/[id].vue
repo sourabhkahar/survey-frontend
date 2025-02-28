@@ -130,7 +130,7 @@ let surveySchema = yup.object({
   )
 })  
 
-const { validate,  values, resetForm,errors } = useForm({
+const { validate,  values, resetForm } = useForm({
     validationSchema: surveySchema,
     initialValues: formData
 })
@@ -163,7 +163,6 @@ async function getSurveyData() {
 const submit = async () => {
     try {
         const { valid } = await validate();
-        // console.log(errors.value)
         if (!valid) {
           snackbarConf.text = 'Please Answer All Question !'
           snackbarConf.color = config.statuscolor.fail

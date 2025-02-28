@@ -2,11 +2,123 @@
   <Navigationbar />
   <v-container>
     Dashboard
+    <v-row>
+      <v-col>
+        <v-card
+          class="mx-auto my-8"
+          elevation="16"
+          max-width="344"
+        >
+          <v-card-item>
+            <v-card-title>
+              Latest Survey
+            </v-card-title>
+          </v-card-item>
+
+          <v-card-text>
+            <v-row>
+              <v-col>
+                Uploaded Date: {{ getUploadedDate }}
+              </v-col>
+            </v-row>
+            <v-row>
+              <v-col>
+                Answers: {{ dashboardData.totalAnswers }}
+              </v-col>
+              <v-col>
+                <v-btn 
+                  v-if="dashboardData.latestSurveys"
+                  icon="mdi mdi-arrow-top-right-bold-box-outline" 
+                  @click="router.push({name:'edit-survey',params:{id:dashboardData.latestSurveys.id}})"
+                />
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card
+          class="mx-auto my-8"
+          elevation="16"
+          max-width="344"
+        >
+          <v-card-item>
+            <v-card-title>
+              Total Survey
+            </v-card-title>
+            <v-card-subtitle>
+              {{ dashboardData.totalSurveys }}
+            </v-card-subtitle>
+          </v-card-item>
+        </v-card>
+      </v-col>
+      <v-col>
+        <v-card
+          class="mx-auto my-8"
+          elevation="16"
+          max-width="344"
+        >
+          <v-card-item>
+            <v-card-title>
+              Total Anwers
+            </v-card-title>
+
+            <v-card-subtitle>
+              {{ dashboardData.totalAnswers }}
+            </v-card-subtitle>
+          </v-card-item>
+        </v-card>
+      </v-col>
+      <!-- <v-col>
+        <v-card
+          class="mx-auto my-8"
+          elevation="16"
+          max-width="344"
+        >
+          <v-card-item>
+            <v-card-title>
+             Latest Answers
+            </v-card-title>
+          </v-card-item>
+
+          <v-card-text>
+            
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+          </v-card-text>
+        </v-card>
+      </v-col> -->
+    </v-row>
   </v-container>
 </template>
 
 <script setup>
+import {  useRouter } from 'vue-router';
 import Navigationbar from '@/components/Navigationbar.vue';
+import { computed, onMounted, ref } from 'vue';
+import { useSurvey } from "@/api/survey";
+import dayjs from 'dayjs';
+const survey = useSurvey()
+const router = useRouter()
+const dashboardData = ref({})
+
+const getUploadedDate = computed(()=>{
+  return dashboardData.value?.latestSurveys?.created_at?dayjs(dashboardData.value.latestSurveys.created_at).format('YYYY-MM-DD'):'-'
+  // return '-'
+}) 
+
+onMounted(() => {
+    getDashBoardData();
+})
+
+async function getDashBoardData() {
+    try {
+        const res = await survey.getDashBoardData()
+        console.log(res);
+        dashboardData.value = {...res.data.data}
+    } catch (error) {
+        console.log(error)
+    }
+}
 
 </script>
 

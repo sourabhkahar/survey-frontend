@@ -9,6 +9,7 @@ export const useSurvey = () => {
 
     const getSurveyForUser = (slug) => http.get(`test/${slug}`);
     const submitSurveyAnswer = (id,data) => http.post(`submit-survey/${id}`,data)
+    const getDashBoardData = () => http.get(`dashboard/index`)
     return {
         createSurvey,
         getSurveies,
@@ -16,6 +17,7 @@ export const useSurvey = () => {
         updateSurvey,
         deleteSurvey,
         getSurveyForUser,
-        submitSurveyAnswer
+        submitSurveyAnswer,
+        getDashBoardData
     }
 }
