@@ -94,7 +94,6 @@ const snackbarConf = reactive({
 
 watch(()=> props.serveyImage,()=>{
     if(props.serveyImage){
-      console.log('serveyImage',props.serveyImage)
         updateResolvedImage(props.serveyImage);
     }
 })

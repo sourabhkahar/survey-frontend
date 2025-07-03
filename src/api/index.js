@@ -4,6 +4,7 @@ export const api = () => {
     const {user} = useUserStore()
     return axios.create({
         baseURL: import.meta.env.VITE_API_BASE_URL,
+        responseType: 'json',
         headers: {
             Authorization: `Bearer ${user.token}`,
         }

@@ -31,6 +31,32 @@ export default{
             key:'radio',
         }
     ],
+    sectionTypeOption:[
+        {
+            value:'Question Answer',
+            key:'question_answer',
+        },
+        {
+            value:'MCQS',
+            key:'mcqs',
+        },
+        {
+            value:'Matching',
+            key:'matching',
+        },
+        {
+            value:'True/False',
+            key:'truefalse',
+        },
+        {
+            value:'Blanks',
+            key:'fillintheblank',
+        },
+        {
+            value:'Draw',
+            key:'drawing',
+        }
+    ],
     pagination:{
         per_page:6,
         page:1,

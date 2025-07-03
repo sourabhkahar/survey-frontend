@@ -37,18 +37,11 @@ router.isReady().then(() => {
 router.beforeEach((to, from, next) => {
   // to and from are both route objects. must call `next`.
   const { user } = useUserStore()
-  // debugger
-  // console.log(to, from)
   if (to.meta.requiresAuth && !user.token) {
-    // console.log('1')
     next({ path: 'login' })
   } else if (user.token && (to.meta.isGuest)) {
-    // console.log('2')
-
     next({ name: 'dashboard' })
   } else {
-    // console.log('3')
-
     next()
   }
 })

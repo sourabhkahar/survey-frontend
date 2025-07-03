@@ -87,6 +87,7 @@ const menu = ref(false)
 const links = ref([
    { name: 'Dashboard', to: '/' },
    { name: 'Surveys', to: '/surveys' },
+   { name: 'Set Paper', to: '/set-papers' },
 ])
 
 const logout = async () => {

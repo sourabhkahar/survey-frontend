@@ -51,7 +51,7 @@
           <v-text-field
             v-model="question.value.question"
             label="Question"
-            :error-messages="errors[`questions[${index}].question`]"
+            :error-messages="errors[`${qidx}[${index}].question`]"
           />
           <v-select
             v-model="question.value.type"
@@ -59,7 +59,7 @@
             :items="config.questionTypeOption"
             item-title="value"
             item-value="key"
-            :error-messages="errors[`questions[${index}].type`]"
+            :error-messages="errors[`${qidx}[${index}].type`]"
           />
           <v-textarea
             v-model="question.value.description"
@@ -77,24 +77,32 @@
   </v-container>
 </template>
 <script setup>
+const props = defineProps({
+    questionsIndex: {
+        required: true,
+        type: Number
+    }
+})
+
 import { useFieldArray, useFormErrors } from 'vee-validate'
 import config from '@/config';
-const { fields,  push, remove } = useFieldArray('questions')
-const errors  = useFormErrors()
+const qidx = props.questionsIndex?`sections.${props.questionsIndex}.questions` : 'questions'
+const { fields, push, remove } = useFieldArray(qidx)
+const errors = useFormErrors()
 
-function addQuestion(){
-    push({
-            question:'',
-            type:'',
-            description:'',
-            options:[
-              {title:''}
-            ]
-        })
+function addQuestion() {
+  push({
+    question: '',
+    type: '',
+    description: '',
+    options: [
+      { title: '' }
+    ]
+  })
 }
 
-function deletQuestion(idx){
-    remove(idx)
+function deletQuestion(idx) {
+  remove(idx)
 }
 
 </script>
