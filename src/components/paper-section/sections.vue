@@ -70,7 +70,7 @@
       </v-card>
       <v-row>
         <v-col cols="12">
-          <Questions :questions_index="index" />
+          <Questions :questions-index="index" />
         </v-col>
       </v-row>
     </v-col>

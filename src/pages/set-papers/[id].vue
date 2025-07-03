@@ -74,7 +74,7 @@ const snackbarConf = reactive({
   text: 'Something went wrong!'
 })
 
-const formData = reactive({
+let formData = reactive({
   title: '',
   sections: [
     {
@@ -161,7 +161,7 @@ onMounted(() => {
 async function getPaperData() {
     try {
         const res = await setpaper.getPaper(route.params.id)
-        formData.value = { ...res.data.data }
+        formData = { ...res.data.data }
         resetForm({ values: { ...res.data.data } })
     } catch (error) {
         console.log(error)

@@ -78,15 +78,15 @@
 </template>
 <script setup>
 const props = defineProps({
-    questionsIndex: {
-        required: true,
-        type: Number
-    }
+  questionsIndex: {
+      type: Number,
+      default: -1
+  }
 })
 
 import { useFieldArray, useFormErrors } from 'vee-validate'
 import config from '@/config';
-const qidx = props.questionsIndex?`sections.${props.questionsIndex}.questions` : 'questions'
+const qidx = props.questionsIndex > -1?`sections.${props.questionsIndex}.questions` : 'questions'
 const { fields, push, remove } = useFieldArray(qidx)
 const errors = useFormErrors()
 
