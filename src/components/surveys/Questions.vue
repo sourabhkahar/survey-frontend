@@ -65,11 +65,17 @@
             v-model="question.value.description"
             label="Description"
           />
+          <v-number-input 
+            v-if="['text'].includes(question.value.type)"
+            v-model="question.value.meta" 
+            control-variant="default"
+          />
           <v-divider v-if="['select','checkbox','radio'].includes(question.value.type)" />
           <Options
             v-if="['select','checkbox','radio'].includes(question.value.type)"
             :qidx="index"
             :option-type="question.value.type"
+            :questions-index="props.questionsIndex"
           />
         </v-card>
       </v-col>
@@ -85,6 +91,7 @@ const props = defineProps({
 })
 
 import { useFieldArray, useFormErrors } from 'vee-validate'
+import { VNumberInput } from 'vuetify/labs/VNumberInput';
 import config from '@/config';
 const qidx = props.questionsIndex > -1?`sections.${props.questionsIndex}.questions` : 'questions'
 const { fields, push, remove } = useFieldArray(qidx)
@@ -95,6 +102,7 @@ function addQuestion() {
     question: '',
     type: '',
     description: '',
+    meta:0,
     options: [
       { title: '' }
     ]

@@ -51,6 +51,7 @@ const formData = ref({
             question: '',
             type: '',
             description: '',
+            meta:0,
             options: [{
                 title: ''
             }],

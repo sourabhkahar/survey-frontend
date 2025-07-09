@@ -3,7 +3,7 @@
     <v-card 
       class="mx-auto" 
     >
-      <div id="container" />
+      <div :id="`container${props.idx}`" />
       <v-card-title>
         {{ props.paperTemplate.name }}
       </v-card-title>
@@ -34,6 +34,10 @@ const props = defineProps({
   paperTemplate: {
     required: true,
     type: Object
+  },
+  idx: {
+    required: true,
+    type: Number
   }
 })
 
@@ -41,7 +45,7 @@ async function readFileContentFromURL(url) {
   let res = await axios.get(import.meta.env.VITE_API_BASE_IMAGE_URL + 'file/' + url, {
     responseType: 'blob',
   })
-  renderAsync(res.data, document.getElementById("container"),'',{
+  renderAsync(res.data, document.getElementById("container"+props.idx),'',{
     inWrapper: true,
     ignoreHeight: true,
     ignoreWidth: true,

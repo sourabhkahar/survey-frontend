@@ -67,6 +67,7 @@ const formData = reactive({
             question: '',
             type: '',
             description: '',
+            meta:0,
             options: [
                 { title: '' }
             ],

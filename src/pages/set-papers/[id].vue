@@ -51,7 +51,7 @@
       >
         submit
       </v-btn>
-      <v-btn>
+      <v-btn @click="goBackToSetPaper">
         Cancel
       </v-btn>
     </form>
@@ -87,6 +87,9 @@ let formData = reactive({
           question: '',
           type: '',
           description: '',
+          meta:{
+            number:0,
+          },
           options: [
             { title: '' }
           ],
@@ -96,29 +99,30 @@ let formData = reactive({
   ]
 })
 
-let surveySchema = yup.object({
+let paperSchema = yup.object({
   title: yup.string().required(),
   sections: yup.array().of(
     yup.object().shape({
       title: yup.string().required('title is required'),
       section_type: yup.string().required('section type is required'),
-      caption: yup.string().required('caption is required'),
+      // caption: yup.string().required('caption is required'),
       total_marks: yup.number().required('total marks is required').positive('total marks must be a positive number'),
       questions: yup.array().of(
         yup.object().shape({
           question: yup.string().required(),
           type: yup.string().required(),
-          description: yup.string(),
+          description: yup.string().nullable(),
           options: yup.array(
             yup.object().shape({
-              title: yup.mixed().test("Option", 'Option title', (test, contex) => {
-                if (!test && ['select', 'checkbox', 'radio'].includes(contex.from[1].value.type)) {
-                  return false
-                }
-                return true
-              })
+              //Fix this validation
+              // title: yup.mixed().test("Option", 'Option title', (test, contex) => {
+              //   if (!test && ['select', 'checkbox', 'radio'].includes(contex.from[1].value.type)) {
+              //     return false
+              //   }
+              //   return false
+              // })
             })
-          )
+          ).nullable()
         })
       )
     })
@@ -126,24 +130,25 @@ let surveySchema = yup.object({
 });
 
 const { validate, values, errors, defineField,resetForm } = useForm({
-  validationSchema: surveySchema,
+  validationSchema: paperSchema,
   initialValues: formData
 })
 const [title, titleAttrs] = defineField('title');
 const submit = async () => {
   try {
-    const { valid } = await validate();
+    const { valid,errors } = await validate();
+    console.log(errors)
     if (!valid) {
       return
     }
 
     const payload = Object.assign({}, values);
-    const res = await setpaper.createSetPaper(payload);
-    console.log(res)
+    console.log(payload)
+    const res = await setpaper.updatePaper(route.params.id,payload);
     if (res.data.status == config.status.success) {
       snackbarConf.color = config.statuscolor.success
-      snackbarConf.text = 'Survey Created Successfully'
-      router.push({ name: 'surveys' })
+      snackbarConf.text = 'Paper Update Successfully'
+      router.push({ name: 'set-papers' })
     } else {
       snackbarConf.color = config.statuscolor.fail
     }
@@ -161,13 +166,15 @@ onMounted(() => {
 async function getPaperData() {
     try {
         const res = await setpaper.getPaper(route.params.id)
-        formData = { ...res.data.data }
         resetForm({ values: { ...res.data.data } })
     } catch (error) {
         console.log(error)
     }
 }
 
+function goBackToSetPaper(){
+    router.push({path:'/set-papers'})
+}
 
 </script>
 <style lang="">

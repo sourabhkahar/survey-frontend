@@ -36,6 +36,7 @@
       <PaperTemplate
         v-for="(paperItem,index) in papersTemplate"
         :key="index"
+        :idx="index"
         :paper-template="paperItem"
       />
     </v-row>

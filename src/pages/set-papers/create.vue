@@ -86,6 +86,7 @@ const formData = reactive({
           question: '',
           type: '',
           description: '',
+          meta:0,
           options: [
             { title: '' }
           ],
@@ -95,7 +96,7 @@ const formData = reactive({
   ]
 })
 
-let surveySchema = yup.object({
+let paperSchema = yup.object({
   title: yup.string().required(),
   sections: yup.array().of(
     yup.object().shape({
@@ -125,7 +126,7 @@ let surveySchema = yup.object({
 });
 
 const { validate, values, errors, defineField } = useForm({
-  validationSchema: surveySchema,
+  validationSchema: paperSchema,
   initialValues: formData
 })
 const [title, titleAttrs] = defineField('title');
@@ -138,7 +139,6 @@ const submit = async () => {
 
     const payload = Object.assign({}, values);
     const res = await setpaper.createSetPaper(payload);
-    console.log(res)
     if (res.data.status == config.status.success) {
       snackbarConf.color = config.statuscolor.success
       snackbarConf.text = 'Survey Created Successfully'

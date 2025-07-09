@@ -53,10 +53,15 @@ const props = defineProps({
   optionType: {
     required: true,
     type:String
+  },
+  questionsIndex: {
+      type: Number,
+      default: -1
   }
 })
 import { useFieldArray, useFormErrors } from 'vee-validate'
-const { fields,  push, remove } = useFieldArray(`questions[${props.qidx}].options`)
+const qidx = props.questionsIndex > -1?`sections.${props.questionsIndex}.questions[${props.qidx}].options` : `questions[${props.qidx}].options`
+const { fields,  push, remove } = useFieldArray(qidx)
 const errors = useFormErrors()
 function addOption() {
   push({

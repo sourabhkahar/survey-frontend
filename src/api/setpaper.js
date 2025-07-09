@@ -8,7 +8,7 @@ export const useSetPaper = () => {
        responseType: 'blob'
     });
     const getPaper = (id) => http.get(`paper/${id}`);
-    // const updateSurvey = (id,data) => http.put(`survey/${id}`,data);
+    const updatePaper = (id,data) => http.put(`paper/${id}`,data);
     // const deleteSurvey = (id) => http.delete(`survey/${id}`);
 
     // const getSurveyForUser = (slug) => http.get(`test/${slug}`);
@@ -19,10 +19,10 @@ export const useSetPaper = () => {
         getPapers, 
         getTemplateList,
         createPaperFromTemplate,
-        getPaper
+        getPaper,
+        updatePaper,
         // getSurveies,
         // getSurvey,
-        // updateSurvey,
         // deleteSurvey,
         // getSurveyForUser,
         // submitSurveyAnswer,
