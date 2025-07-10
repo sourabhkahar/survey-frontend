@@ -50,7 +50,7 @@ async function readFileContentFromURL(url) {
     ignoreHeight: true,
     ignoreWidth: true,
     useBase64URL: true,
-  }).then(x => console.log("docx: finished",x));
+  });
   
 }
 

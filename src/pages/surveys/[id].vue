@@ -110,7 +110,7 @@ const submit = async () => {
          }  else {
             payload.image = null
          }
-        //  debugger
+         
         const res = await survey.updateSurvey(route.params.id,payload)
         if (res.data.status == config.status.success) {
             snackbarConf.color = config.statuscolor.success
