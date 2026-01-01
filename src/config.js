@@ -61,5 +61,13 @@ export default{
         per_page:6,
         page:1,
         total:0
+    },
+    sectionTypeMap : {
+        question_answer: 'Question Answer',
+        mcqs: 'MCQS',
+        matching: 'Matching',
+        truefalse: 'True/False',
+        fillintheblank: 'Blanks',
+        drawing: 'Draw'
     }
 }

@@ -50,16 +50,17 @@ const props = defineProps({
     required: true,
     type:Number
   },
-  optionType: {
-    required: true,
-    type:String
-  },
+  // optionType: {
+  //   required: true,
+  //   type:String
+  // },
   questionsIndex: {
       type: Number,
       default: -1
   }
 })
 import { useFieldArray, useFormErrors } from 'vee-validate'
+import { onMounted } from 'vue'
 const qidx = props.questionsIndex > -1?`sections.${props.questionsIndex}.questions[${props.qidx}].options` : `questions[${props.qidx}].options`
 const { fields,  push, remove } = useFieldArray(qidx)
 const errors = useFormErrors()
@@ -72,6 +73,10 @@ function addOption() {
 function deletOption(idx) {
   remove(idx)
 }
+
+onMounted(()=>{
+  addOption()
+})
 
 </script>
 <style lang="">

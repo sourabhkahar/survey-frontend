@@ -84,12 +84,7 @@ const formData = reactive({
       questions: [
         {
           question: '',
-          type: '',
-          description: '',
-          meta:0,
-          options: [
-            { title: '' }
-          ],
+          options: [],
         }
       ]
     }
@@ -107,18 +102,20 @@ let paperSchema = yup.object({
       questions: yup.array().of(
         yup.object().shape({
           question: yup.string().required(),
-          type: yup.string().required(),
-          description: yup.string(),
-          options: yup.array(
-            yup.object().shape({
-              title: yup.mixed().test("Option", 'Option title', (test, contex) => {
-                if (!test && ['select', 'checkbox', 'radio'].includes(contex.from[1].value.type)) {
-                  return false
-                }
-                return true
-              })
-            })
-          )
+          // type: yup.string().required(),
+          // description: yup.string(),
+          options: yup.mixed().nullable()
+          // yup.array(
+          //   yup.object().shape({
+          //     meta: yup.string().nullable(), // NOTE make condition as per the section
+          //     // title: yup.mixed().test("Option", 'Option title', (test, contex) => {
+          //     //   if (!test && ['select', 'checkbox', 'radio'].includes(contex.from[1].value.type)) {
+          //     //     return false
+          //     //   }
+          //     //   return true
+          //     // })
+          //   })
+          // )
         })
       )
     })

@@ -110,19 +110,21 @@ let paperSchema = yup.object({
       questions: yup.array().of(
         yup.object().shape({
           question: yup.string().required(),
-          type: yup.string().required(),
-          description: yup.string().nullable(),
-          options: yup.array(
-            yup.object().shape({
-              //Fix this validation
-              // title: yup.mixed().test("Option", 'Option title', (test, contex) => {
-              //   if (!test && ['select', 'checkbox', 'radio'].includes(contex.from[1].value.type)) {
-              //     return false
-              //   }
-              //   return false
-              // })
-            })
-          ).nullable()
+          // type: yup.string().required(),
+          // description: yup.string().nullable(),
+          options:  yup.mixed().nullable()
+          // yup.array(
+            // yup.object().shape({
+            //   meta:yup.mixed().nullable()
+            //   //Fix this validation
+            //   // title: yup.mixed().test("Option", 'Option title', (test, contex) => {
+            //   //   if (!test && ['select', 'checkbox', 'radio'].includes(contex.from[1].value.type)) {
+            //   //     return false
+            //   //   }
+            //   //   return false
+            //   // })
+            // })
+          // ).nullable()
         })
       )
     })

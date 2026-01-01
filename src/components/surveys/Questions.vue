@@ -53,28 +53,28 @@
             label="Question"
             :error-messages="errors[`${qidx}[${index}].question`]"
           />
-          <v-select
+          <!-- <v-select
             v-model="question.value.type"
             label="Question Type"
             :items="config.questionTypeOption"
             item-title="value"
             item-value="key"
             :error-messages="errors[`${qidx}[${index}].type`]"
-          />
-          <v-textarea
+          /> -->
+          <!-- <v-textarea
             v-model="question.value.description"
             label="Description"
-          />
+          /> -->
           <v-number-input 
-            v-if="['text'].includes(question.value.type)"
-            v-model="question.value.meta" 
+            v-if="props.sectionType == cofigSectionOption.question_answer"
+            v-model="question.value.options" 
             control-variant="default"
+            label="No. Of lines"
           />
-          <v-divider v-if="['select','checkbox','radio'].includes(question.value.type)" />
+          <v-divider v-if="props.sectionType == cofigSectionOption.mcqs" />
           <Options
-            v-if="['select','checkbox','radio'].includes(question.value.type)"
+            v-if="props.sectionType == cofigSectionOption.mcqs"
             :qidx="index"
-            :option-type="question.value.type"
             :questions-index="props.questionsIndex"
           />
         </v-card>
@@ -85,24 +85,29 @@
 <script setup>
 const props = defineProps({
   questionsIndex: {
-      type: Number,
-      default: -1
+    type: Number,
+    default: -1
+  },
+  sectionType: {
+    type: String,
+    default: ""
   }
 })
 
 import { useFieldArray, useFormErrors } from 'vee-validate'
 import { VNumberInput } from 'vuetify/labs/VNumberInput';
 import config from '@/config';
-const qidx = props.questionsIndex > -1?`sections.${props.questionsIndex}.questions` : 'questions'
+import { mapArrayinKeyValue  } from '@/utils/helpers'
+const qidx = props.questionsIndex > -1 ? `sections.${props.questionsIndex}.questions` : 'questions'
 const { fields, push, remove } = useFieldArray(qidx)
 const errors = useFormErrors()
-
+const cofigSectionOption = mapArrayinKeyValue(config.sectionTypeOption);
 function addQuestion() {
   push({
     question: '',
     type: '',
     description: '',
-    meta:0,
+    meta: 0,
     options: [
       { title: '' }
     ]

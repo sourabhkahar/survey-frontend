@@ -70,7 +70,10 @@
       </v-card>
       <v-row>
         <v-col cols="12">
-          <Questions :questions-index="index" />
+          <Questions 
+            :questions-index="index"  
+            :section-type="section.value.section_type"
+          />
         </v-col>
       </v-row>
     </v-col>
@@ -91,11 +94,7 @@ function addSection() {
     questions: [
       {
         question: '',
-        type: '',
-        description: '',
-        options: [
-          { title: '' }
-        ],
+        options: null,
       }
     ]
   })
