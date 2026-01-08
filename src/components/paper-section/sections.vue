@@ -71,7 +71,8 @@
       <v-row>
         <v-col cols="12">
           <Questions 
-            :questions-index="index"  
+            v-if="section.value.section_type != ''"  
+            :questions-index="index"
             :section-type="section.value.section_type"
           />
         </v-col>
@@ -94,7 +95,7 @@ function addSection() {
     questions: [
       {
         question: '',
-        options: null,
+        options: [],
       }
     ]
   })

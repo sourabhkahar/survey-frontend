@@ -50,10 +50,6 @@ const props = defineProps({
     required: true,
     type:Number
   },
-  // optionType: {
-  //   required: true,
-  //   type:String
-  // },
   questionsIndex: {
       type: Number,
       default: -1

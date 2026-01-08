@@ -139,7 +139,7 @@ const submit = async () => {
     if (res.data.status == config.status.success) {
       snackbarConf.color = config.statuscolor.success
       snackbarConf.text = 'Survey Created Successfully'
-      router.push({ name: 'surveys' })
+      router.push({ name: 'set-papers' })
     } else {
       snackbarConf.color = config.statuscolor.fail
     }

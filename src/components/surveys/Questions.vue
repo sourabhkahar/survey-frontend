@@ -15,7 +15,7 @@
         :key="index"
         cols="12"
       >
-        <v-row>
+        <v-row v-if=" props.sectionType != 'matching'">
           <v-col
             v-if="index == (fields.length-1)"
             class="text-start"
@@ -53,18 +53,11 @@
             label="Question"
             :error-messages="errors[`${qidx}[${index}].question`]"
           />
-          <!-- <v-select
-            v-model="question.value.type"
-            label="Question Type"
-            :items="config.questionTypeOption"
-            item-title="value"
-            item-value="key"
-            :error-messages="errors[`${qidx}[${index}].type`]"
-          /> -->
-          <!-- <v-textarea
-            v-model="question.value.description"
+          <v-textarea
+            v-if="props.sectionType == cofigSectionOption.fillintheblank"
+            v-model="question.value.question"
             label="Description"
-          /> -->
+          />
           <v-number-input 
             v-if="props.sectionType == cofigSectionOption.question_answer"
             v-model="question.value.options" 
@@ -72,6 +65,12 @@
             label="No. Of lines"
           />
           <v-divider v-if="props.sectionType == cofigSectionOption.mcqs" />
+          <MatchAB  
+            v-if=" props.sectionType == cofigSectionOption.matching" 
+            :qidx="index"
+            :questions-index="props.questionsIndex"
+            :section-type="props.sectionType" 
+          />
           <Options
             v-if="props.sectionType == cofigSectionOption.mcqs"
             :qidx="index"
@@ -105,12 +104,9 @@ const cofigSectionOption = mapArrayinKeyValue(config.sectionTypeOption);
 function addQuestion() {
   push({
     question: '',
-    type: '',
     description: '',
     meta: 0,
-    options: [
-      { title: '' }
-    ]
+    options: []
   })
 }
 

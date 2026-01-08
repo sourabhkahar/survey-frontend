@@ -30,10 +30,10 @@
     <form @submit.prevent="submit">
       <v-row>
         <v-col cols="12">
-          <v-text-field 
-            v-model="title" 
-            v-bind="titleAttrs" 
-            label="Paper Title" 
+          <v-text-field
+            v-model="title"
+            v-bind="titleAttrs"
+            label="Paper Title"
             :error-messages="errors.title"
           />
         </v-col>
@@ -45,8 +45,8 @@
         </v-col>
       </v-row>
       <!-- </v-container> -->
-      <v-btn 
-        class="me-4" 
+      <v-btn
+        class="me-4"
         type="submit"
       >
         submit
@@ -58,7 +58,7 @@
   </v-container>
 </template>
 <script setup>
-import { useRouter,useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 import { ref, reactive, onMounted } from 'vue'
 import { useForm } from 'vee-validate';
 import * as yup from 'yup';
@@ -87,12 +87,10 @@ let formData = reactive({
           question: '',
           type: '',
           description: '',
-          meta:{
-            number:0,
+          meta: {
+            number: 0,
           },
-          options: [
-            { title: '' }
-          ],
+          options: [],
         }
       ]
     }
@@ -105,47 +103,29 @@ let paperSchema = yup.object({
     yup.object().shape({
       title: yup.string().required('title is required'),
       section_type: yup.string().required('section type is required'),
-      // caption: yup.string().required('caption is required'),
       total_marks: yup.number().required('total marks is required').positive('total marks must be a positive number'),
       questions: yup.array().of(
         yup.object().shape({
           question: yup.string().required(),
-          // type: yup.string().required(),
-          // description: yup.string().nullable(),
-          options:  yup.mixed().nullable()
-          // yup.array(
-            // yup.object().shape({
-            //   meta:yup.mixed().nullable()
-            //   //Fix this validation
-            //   // title: yup.mixed().test("Option", 'Option title', (test, contex) => {
-            //   //   if (!test && ['select', 'checkbox', 'radio'].includes(contex.from[1].value.type)) {
-            //   //     return false
-            //   //   }
-            //   //   return false
-            //   // })
-            // })
-          // ).nullable()
+          options: yup.mixed()
         })
       )
     })
   )
 });
 
-const { validate, values, errors, defineField,resetForm } = useForm({
+const { validate, values, errors, defineField, resetForm } = useForm({
   validationSchema: paperSchema,
   initialValues: formData
 })
 const [title, titleAttrs] = defineField('title');
 const submit = async () => {
   try {
-    const { valid,errors } = await validate();
-    console.log(errors)
+    const { valid } = await validate();
     if (!valid) {
       return
     }
-
     const payload = Object.assign({}, values);
-    console.log(payload)
     const res = await setpaper.updatePaper(route.params.id,payload);
     if (res.data.status == config.status.success) {
       snackbarConf.color = config.statuscolor.success
@@ -162,20 +142,21 @@ const submit = async () => {
 }
 
 onMounted(() => {
-    getPaperData();
+  getPaperData();
 })
 
 async function getPaperData() {
-    try {
-        const res = await setpaper.getPaper(route.params.id)
-        resetForm({ values: { ...res.data.data } })
-    } catch (error) {
-        console.log(error)
-    }
+  try {
+    const res = await setpaper.getPaper(route.params.id)
+    const data = res.data.data;
+    resetForm({ values: { ...data } })
+  } catch (error) {
+    console.log(error)
+  }
 }
 
-function goBackToSetPaper(){
-    router.push({path:'/set-papers'})
+function goBackToSetPaper() {
+  router.push({ path: '/set-papers' })
 }
 
 </script>
@@ -183,8 +164,8 @@ function goBackToSetPaper(){
 
 </style>
 <route lang="json">{
-    "name": "edit-set-paper",
-    "meta": {
-      "requiresAuth": true
-    }
-  }</route>
+  "name": "edit-set-paper",
+  "meta": {
+    "requiresAuth": true
+  }
+}</route>
