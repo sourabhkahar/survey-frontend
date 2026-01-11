@@ -30,8 +30,7 @@
           <div class="d-flex justify-space-between align-center">
             <h3 class="text-center ma-2">
               Match A
-            </h3> 
-            {{sectionType}}
+            </h3>
             <v-btn
               icon="mdi-plus"
               type="button"

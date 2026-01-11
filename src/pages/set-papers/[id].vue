@@ -107,7 +107,7 @@ let paperSchema = yup.object({
       questions: yup.array().of(
         yup.object().shape({
           question: yup.string().required(),
-          options: yup.mixed()
+          options: yup.mixed().nullable()
         })
       )
     })

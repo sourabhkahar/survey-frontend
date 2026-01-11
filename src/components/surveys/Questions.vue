@@ -49,6 +49,7 @@
           class="mx-auto m-2 pa-1 border-b-thin "
         >
           <v-text-field
+            v-if="props.sectionType != cofigSectionOption.fillintheblank"
             v-model="question.value.question"
             label="Question"
             :error-messages="errors[`${qidx}[${index}].question`]"
