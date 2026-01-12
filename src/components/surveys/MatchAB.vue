@@ -165,7 +165,6 @@ watch(
       type === 'matching' &&
       (!value.value || (!value.value.matchA && !value.value.matchB))
     ) {
-      console.log('ojojjo')
       setValue({
         matchA: [],
         matchB: []
@@ -174,12 +173,6 @@ watch(
   },
   { immediate: true }
 )
-// onMounted(()=>{
-//   setValue({
-//         matchA: [],
-//         matchB: []
-//       })
-// })
 </script>
 <style lang="">
 

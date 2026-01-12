@@ -29,7 +29,7 @@
   <v-container>
     <form @submit.prevent="submit">
       <v-row>
-        <v-col cols="12">
+        <v-col cols="6">
           <v-text-field
             v-model="title"
             v-bind="titleAttrs"
@@ -37,21 +37,49 @@
             :error-messages="errors.title"
           />
         </v-col>
+        <v-col cols="6">
+          <v-text-field
+            v-model="subject"
+            v-bind="subjectAttrs"
+            label="Subject"
+            :error-messages="errors.subject"
+          />
+        </v-col>
       </v-row>
-      <!-- <v-container> -->
+      <v-row>
+        <v-col cols="6">
+          <v-text-field
+            v-model="standard"
+            v-bind="standardAttrs"
+            label="Standard"
+            :error-messages="errors.title"
+          />
+        </v-col>
+        <v-col cols="6">
+          <v-text-field
+            v-model="paper_date" 
+            v-bind="paper_dateAttrs"
+            label="Paper Date"
+            type="date"
+            :error-messages="errors.paper_date"
+          />
+        </v-col>
+      </v-row>
       <v-row>
         <v-col cols="12">
           <sections />
         </v-col>
       </v-row>
-      <!-- </v-container> -->
       <v-btn
-        class="me-4"
+        class="me-4 mt-2"
         type="submit"
       >
         submit
       </v-btn>
-      <v-btn @click="goBackToSetPaper">
+      <v-btn
+        class="mt-4"
+        @click="goBackToSetPaper"
+      >
         Cancel
       </v-btn>
     </form>
@@ -76,6 +104,9 @@ const snackbarConf = reactive({
 
 let formData = reactive({
   title: '',
+  subject: '',
+  standard: '',
+  paper_date: new Date(),
   sections: [
     {
       title: '',
@@ -87,9 +118,7 @@ let formData = reactive({
           question: '',
           type: '',
           description: '',
-          meta: {
-            number: 0,
-          },
+          meta: {},
           options: [],
         }
       ]
@@ -99,6 +128,9 @@ let formData = reactive({
 
 let paperSchema = yup.object({
   title: yup.string().required(),
+  standard: yup.string().required('standard is required'),
+  subject: yup.string().required('subject is required'),
+  paper_date: yup.date().required('paper_date is required'),
   sections: yup.array().of(
     yup.object().shape({
       title: yup.string().required('title is required'),
@@ -116,12 +148,16 @@ let paperSchema = yup.object({
 
 const { validate, values, errors, defineField, resetForm } = useForm({
   validationSchema: paperSchema,
-  initialValues: formData
+  initialValues:formData
 })
 const [title, titleAttrs] = defineField('title');
+const [standard, standardAttrs] = defineField('standard');
+const [subject, subjectAttrs] = defineField('subject');
+const [paper_date, paper_dateAttrs] = defineField('paper_date');
 const submit = async () => {
   try {
-    const { valid } = await validate();
+    const { valid,errors } = await validate();
+    console.log(errors)
     if (!valid) {
       return
     }
@@ -140,7 +176,6 @@ const submit = async () => {
     snackbar.value = true
   }
 }
-
 onMounted(() => {
   getPaperData();
 })

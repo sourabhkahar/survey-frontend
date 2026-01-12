@@ -106,7 +106,6 @@ function addQuestion() {
   push({
     question: '',
     description: '',
-    meta: 0,
     options: []
   })
 }
