@@ -33,27 +33,36 @@
       </template>
     </v-snackbar>
     <v-row>
-      <SurveyCard
-        v-for="(surveyItem,index) in surveys"
-        :key="index"
-        :survey="surveyItem"
-        @open-delete-confirm-modal="openDeleteConfirmModal"
-        @go-to-edit="goToEdit"
-      />
-      <v-container>
-        <v-row justify="center">
-          <v-col cols="8">
-            <v-container class="max-width">
-              <v-pagination
-                v-model="paginationLink.current_page"
-                :length="paginationLink.last_page"
-                class="my-4"
-                @update:model-value="onChangePage"
-              />
-            </v-container>
-          </v-col>
-        </v-row>
-      </v-container>
+      <template v-if="surveys.length > 0">
+        <SurveyCard
+          v-for="(surveyItem,index) in surveys"
+          :key="index"
+          :survey="surveyItem"
+          @open-delete-confirm-modal="openDeleteConfirmModal"
+          @go-to-edit="goToEdit"
+        />
+        <v-container>
+          <v-row justify="center">
+            <v-col cols="8">
+              <v-container class="max-width">
+                <v-pagination
+                  v-model="paginationLink.current_page"
+                  :length="paginationLink.last_page"
+                  class="my-4"
+                  @update:model-value="onChangePage"
+                />
+              </v-container>
+            </v-col>
+          </v-row>
+        </v-container>
+      </template>
+      <template v-else>
+        <v-col cols="12">
+          <v-card>
+            <v-card-title>No surveys found</v-card-title>
+          </v-card>
+        </v-col>
+      </template>
     </v-row>
   </v-container>
 
@@ -133,13 +142,11 @@ onMounted(() => {
 
 async function getSurveyList() {
   const res = await survey.getSurveies(pagination.value)
-  if (res.status == 200) {
+  if (res.data.status == config.status.success) {
     surveys.value = res.data.data
     paginationLink.value = res.data.meta
     pagination.value.total = res.data.meta.total
-  } else {
-    console.log('error');
-  }
+  } 
 }
 
 function goToEdit(id) {

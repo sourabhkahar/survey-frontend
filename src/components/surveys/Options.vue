@@ -4,45 +4,47 @@
       <strong> Options </strong>
     </v-col>
   </v-row>
-  <v-container fluid>
-    <v-row>
-      <template
-        v-for="(option,index) in fields"
-        :key="index"
+  <!-- <v-container fluid> -->
+  <v-row>
+    <template
+      v-for="(option,index) in fields"
+      :key="index"
+    >
+      <v-col
+        cols="6"
+        sm="3"
+        class="pb-3"
       >
-        <v-col
-          cols="11"
-          class="pa-0"
+        <v-text-field
+          v-model="option.value.title"
+          density="compact"
+          variant="outlined"
+          hide-details
         >
-          <v-text-field
-            v-model="option.value.title"
-            label="Title"
-            :error-messages="errors[`questions[${qidx}].options[${index}].title`]"
-          />
-        </v-col>
-        <v-col
-          class="text-end pa-0"
-          cols="1"
-        >
-          <v-btn
-            v-if="index == (fields.length-1)"
-            type="button"
-            icon="mdi-plus"
-            variant="text"
-            @click="addOption"
-          />
-          <v-btn
-            v-if="index != 0"
-            type="button"
-            icon="mdi-trash-can"
-            variant="text"
-            color="red"
-            @click="deletOption(index)"
-          />
-        </v-col>
-      </template>
-    </v-row>
-  </v-container>
+          <template #append-inner>
+            <v-icon
+              v-if="index != 0"
+              size="16"
+              color="red"
+              @click="deletOption(index)"
+            >
+              mdi-close
+            </v-icon>
+
+            <v-icon
+              v-if="index === fields.length - 1"
+              size="18"
+              color="primary"
+              @click="addOption(1)"
+            >
+              mdi-plus
+            </v-icon>
+          </template>
+        </v-text-field>
+      </v-col>
+    </template>
+  </v-row>
+  <!-- </v-container> -->
 </template>
 <script setup>
 const props = defineProps({
@@ -60,10 +62,12 @@ import { onMounted } from 'vue'
 const qidx = props.questionsIndex > -1?`sections.${props.questionsIndex}.questions[${props.qidx}].options` : `questions[${props.qidx}].options`
 const { fields,  push, remove } = useFieldArray(qidx)
 const errors = useFormErrors()
-function addOption() {
-  push({
-    title: '',
-  })
+function addOption(opt = 0) {
+  for(let i = 0; i < opt; i++) {
+    push({
+      title: '',
+    })
+  }
 }
 
 function deletOption(idx) {
@@ -71,7 +75,9 @@ function deletOption(idx) {
 }
 
 onMounted(()=>{
-  addOption()
+  if(fields.value.length == 0){
+    addOption(4)
+  }
 })
 
 </script>

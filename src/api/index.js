@@ -9,5 +9,4 @@ export const api = () => {
             Authorization: `Bearer ${user.token}`,
         }
     })
-
 }

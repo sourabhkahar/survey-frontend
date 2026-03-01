@@ -176,10 +176,6 @@ const [email] = defineField('email');
 const [phone] = defineField('phone');
 const [password] = defineField('password');
 const [password_confirmation] = defineField('password_confirmation');
-onMounted(() => {
-    // console.log(auth)
-})
-
 const submit = async () => {
     try {
 
@@ -189,7 +185,6 @@ const submit = async () => {
         }
         const res = await auth.register(values)
         if (res.data.status == config.status.success) {
-            // console.log(res.data)
             user.setUser(res.data)
             snackbarConf.color = config.statuscolor.success
             snackbarConf.text = 'User insert Successfully'

@@ -4,15 +4,7 @@
     color="grey-lighten-2  m-4"
     name="app-bar"
   >
-    <v-app-bar-title>Set Papers</v-app-bar-title>
-    <v-spacer />
-    <v-btn
-      elevation="3"
-      class="mr-4"
-      @click="addPapers"
-    >
-      Add Paper
-    </v-btn>
+    <v-app-bar-title>Preview Template</v-app-bar-title>
   </v-app-bar>
   <v-container>
     <v-snackbar
@@ -33,12 +25,7 @@
       </template>
     </v-snackbar>
     <v-row>
-      <PaperTemplate
-        v-for="(paperItem,index) in papersTemplate"
-        :key="index"
-        :idx="index"
-        :paper-template="paperItem"
-      />
+      <PaperTemplate/>
     </v-row>
   </v-container>
 
@@ -66,47 +53,13 @@
 </template>
 <script setup>
 
-import { onMounted, reactive, ref } from 'vue';
-// import { useRouter } from 'vue-router';
-import { useSetPaper } from "@/api/setpaper";
-import config from '@/config';
-// const router = useRouter()
-const setPaper = useSetPaper()
-const papersTemplate = ref([])
-const isConfirmModalOpen = ref(false)
-const snackbar = ref(false)
-const pagination = ref({ ...config.pagination })
-
+import { reactive, ref } from 'vue';
 const snackbarConf = reactive({
   color: 'error',
   text: 'Something went wrong!'
 })
-
-function addPapers() {
-  // router.push({ path: '/set-papers/create' })
-}
-
-// function onChangePage(item) {
-//   pagination.value.page = item
-//   getTemplateList()
-// }
-onMounted(() => {
-  getTemplateList();
-})
-
-async function getTemplateList() {
-  const res = await setPaper.getTemplateList(pagination.value)
-  if (res.status == 200) {
-    papersTemplate.value = res.data.data
-  } else {
-    console.log('error');
-  }
-}
-
-// function goToEdit(id) {
-//   router.push({ path: `/surveys/${id}` })
-// }
-
+const isConfirmModalOpen = ref(false)
+const snackbar = ref(false)
 
 </script>
 <route lang="json">{

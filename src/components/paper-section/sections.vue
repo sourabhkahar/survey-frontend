@@ -5,39 +5,27 @@
       :key="index" 
       cols="12"
     >
-      <v-row>
-        <v-col
-          v-if="index == (fields.length-1)" 
-          class="text-start" 
-          cols="8"
-        >
-          Add Section
-        </v-col>
-        <v-col
-          class="text-end"
-          :cols="index != (fields.length-1) ? 12 : 4"
-        >
-          <v-btn
-            v-if="index == (fields.length-1)"
-            type="button"
-            icon="mdi-plus"
-            variant="text"
-            @click="addSection"
-          />
-          <v-btn
-            v-if="index != 0"
-            type="button"
-            icon="mdi-trash-can"
-            variant="text"
-            color="red"
-            @click="deletSection(index)"
-          />
-        </v-col>
-      </v-row>
       <v-expansion-panels>
         <v-expansion-panel>
           <v-expansion-panel-title> 
-            {{ section.value.title }} 
+            <v-row>
+              <v-col cols="10">
+                {{ section.value.title }} 
+              </v-col>
+              <v-col 
+                cols="2"
+                class="text-end"
+              > 
+                <v-btn
+                  v-if="index != 0"
+                  type="button"
+                  icon="mdi-close"
+                  variant="text"
+                  color="red"
+                  @click="deletSection(index)"
+                />
+              </v-col>
+            </v-row>
           </v-expansion-panel-title>
           <v-expansion-panel-text>
             <template #default>
@@ -88,6 +76,27 @@
           </v-expansion-panel-text>
         </v-expansion-panel>
       </v-expansion-panels>
+      <v-row>
+        <v-col
+          v-if="index == (fields.length-1)" 
+          class="text-start" 
+          cols="8"
+        >
+          Add Section
+        </v-col>
+        <v-col
+          class="text-end"
+          :cols="index != (fields.length-1) ? 12 : 4"
+        >
+          <v-btn
+            v-if="index == (fields.length-1)"
+            type="button"
+            icon="mdi-plus"
+            variant="text"
+            @click="addSection"
+          />
+        </v-col>
+      </v-row>
     </v-col>
   </v-row>
 </template>

@@ -100,25 +100,26 @@ const snackbarConf = reactive({
 })
 
 function openDeleteConfirmModal(id) {
+  console.log(id);
   isConfirmModalOpen.value = true;
   selectedRec.value = id
 }
 
-// async function deleteSurvey() {
-//   try {
-//     const res = await survey.deleteSurvey(selectedRec.value);
-//     if (res.data.status == config.status.success) {
-//       snackbarConf.color = config.statuscolor.success
-//       snackbarConf.text = 'Survey Deleted Successfully'
-//       getSurveyList()
-//     }
-//     snackbar.value = true
-//   } catch (error) {
-//     console.log(error)
-//     snackbar.value = true
-//   }
-//   isConfirmModalOpen.value = false;
-// }
+async function deleteSurvey() {
+  try {
+    const res = await setPaper.deletePaper(selectedRec.value);
+    if (res.data.status == config.status.success) {
+      snackbarConf.color = config.statuscolor.success
+      snackbarConf.text = 'Paper Deleted Successfully'
+      getPaperList()
+    }
+    snackbar.value = true
+  } catch (error) {
+    console.log(error)
+    snackbar.value = true
+  }
+  isConfirmModalOpen.value = false;
+}
 
 function addPapers() {
   router.push({ path: '/set-papers/create' })

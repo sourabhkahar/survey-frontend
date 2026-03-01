@@ -1,7 +1,11 @@
 <template lang="">
-  <v-col cols="4">
-    <v-card 
-      class="mx-auto" 
+  <v-col
+    cols="12"
+    sm="6"
+    md="4"
+  >
+    <v-card
+      class="mx-auto"
       max-width="344"
     >
       <v-img 

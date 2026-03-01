@@ -1,11 +1,15 @@
 <template lang="">
-  <v-col cols="4">
+  <v-col cols="12">
     <v-card 
       class="mx-auto" 
     >
-      <div :id="`container${props.idx}`" />
+      <iframe
+        :src="previewUrl"
+        width="100%"
+        height="700"
+      />
       <v-card-title>
-        {{ props.paperTemplate.name }}
+        <!-- {{ props.paperTemplate.name }} -->
       </v-card-title>
       <v-card-actions class="d-flex justify-end">
         <v-btn 
@@ -22,36 +26,18 @@
   </v-col>
 </template>
 <script setup>
-import axios from "axios";
-import {renderAsync} from 'docx-preview'
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 const route = useRoute()
 import { useSetPaper } from '@/api/setpaper'
 import { useRoute } from "vue-router";
 const setPaper = useSetPaper();
-// import config from '@/config'
-const props = defineProps({
-  paperTemplate: {
-    required: true,
-    type: Object
-  },
-  idx: {
-    required: true,
-    type: Number
-  }
-})
+const previewUrl = ref('')
 
-async function readFileContentFromURL(url) {
-  let res = await axios.get(import.meta.env.VITE_API_BASE_IMAGE_URL + 'file/' + url, {
-    responseType: 'blob',
-  })
-  renderAsync(res.data, document.getElementById("container"+props.idx),'',{
-    inWrapper: true,
-    ignoreHeight: true,
-    ignoreWidth: true,
-    useBase64URL: true,
-  });
-  
+async function readFileContentFromURL(id) {
+  let res = await setPaper.previewPaper(id)
+  if (res.status === 200) {
+    previewUrl.value = URL.createObjectURL(res.data)
+  }
 }
 
 async function createPaper() {
@@ -69,8 +55,6 @@ async function createPaper() {
   }
 }
 onMounted(() => {
-  if (props.paperTemplate.url) {
-    readFileContentFromURL(props.paperTemplate.name)
-  }
+  readFileContentFromURL(route.params.id)
 })
 </script>
