@@ -75,6 +75,7 @@
       <v-btn 
         class="me-4 mt-4" 
         type="submit"
+        :loading="loading"
       >
         submit
       </v-btn>
@@ -82,7 +83,7 @@
         class="mt-4"
         @click="goBackToSetPaper"
       >
-        Cancel
+        Back
       </v-btn>
     </form>
   </v-container>
@@ -153,6 +154,7 @@ const [title, titleAttrs] = defineField('title');
 const [standard, standardAttrs] = defineField('standard');
 const [subject, subjectAttrs] = defineField('subject');
 const [paper_date, paper_dateAttrs] = defineField('paper_date');
+const loading = ref(false)
 const submit = async () => {
   try {
     const { valid,errors } = await validate();
@@ -162,18 +164,21 @@ const submit = async () => {
     }
 
     const payload = Object.assign({}, values);
+    loading.value = true
     const res = await setpaper.createSetPaper(payload);
     if (res.data.status == config.status.success) {
       snackbarConf.color = config.statuscolor.success
       snackbarConf.text = 'Survey Created Successfully'
-      router.push({ name: 'set-papers' })
+      // router.push({ name: 'set-papers' })
     } else {
       snackbarConf.color = config.statuscolor.fail
     }
     snackbar.value = true
+    loading.value = false
   } catch (error) {
     console.log(error)
     snackbar.value = true
+    loading.value = false
   }
 }
 
