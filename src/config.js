@@ -1,73 +1,78 @@
-export default{
-    status:{
-        success:'success',
-        fail:'fail',
-        pending:'pending',
-        inprocess:'inprocess',
-        error:'error',
+export default {
+    status: {
+        success: 'success',
+        fail: 'fail',
+        pending: 'pending',
+        inprocess: 'inprocess',
+        error: 'error',
     },
-    statuscolor:{
-        success:'green-darken-1',
-        fail:'red',
-        pending:'light-blue-darken-1',
-        inprocess:'yellow-darken-1',
-        error:'red',
+    statuscolor: {
+        success: 'green-darken-1',
+        fail: 'red',
+        pending: 'light-blue-darken-1',
+        inprocess: 'yellow-darken-1',
+        error: 'red',
     },
-    questionTypeOption:[
+    questionTypeOption: [
         {
-            value:'Text',
-            key:'text',
+            value: 'Text',
+            key: 'text',
         },
         {
-            value:'Select',
-            key:'select',
+            value: 'Select',
+            key: 'select',
         },
         {
-            value:'Checkbox',
-            key:'checkbox',
+            value: 'Checkbox',
+            key: 'checkbox',
         },
         {
-            value:'Radio',
-            key:'radio',
+            value: 'Radio',
+            key: 'radio',
         }
     ],
-    sectionTypeOption:[
+    sectionTypeOption: [
         {
-            value:'Question Answer',
-            key:'question_answer',
+            value: 'Question Answer',
+            key: 'question_answer',
         },
         {
-            value:'MCQS',
-            key:'mcqs',
+            value: 'MCQS',
+            key: 'mcqs',
         },
         {
-            value:'Matching',
-            key:'matching',
+            value: 'Matching',
+            key: 'matching',
         },
         {
-            value:'True/False',
-            key:'truefalse',
+            value: 'True/False',
+            key: 'truefalse',
         },
         {
-            value:'Blanks',
-            key:'fillintheblank',
+            value: 'Blanks',
+            key: 'fillintheblank',
         },
         {
-            value:'Draw',
-            key:'drawing',
+            value: 'Draw',
+            key: 'drawing',
+        },
+        {
+            value: 'Single Image',
+            key: 'single_image',
         }
     ],
-    pagination:{
-        per_page:6,
-        page:1,
-        total:0
+    pagination: {
+        per_page: 6,
+        page: 1,
+        total: 0
     },
-    sectionTypeMap : {
+    sectionTypeMap: {
         question_answer: 'Question Answer',
         mcqs: 'MCQS',
         matching: 'Matching',
         truefalse: 'True/False',
         fillintheblank: 'Blanks',
-        drawing: 'Draw'
+        drawing: 'Draw',
+        single_image: 'Single Image'
     }
 }

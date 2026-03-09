@@ -13,7 +13,8 @@ export const useSetPaper = () => {
     const previewPaper = (id) => http.get(`paper/preview/${id}`, {
         responseType: 'blob'
     });
-
+    const uploadDocument = (data) => http.post('paper/upload-document', data);
+    const deleteDocument = (data) => http.post('paper/delete-document', data);
     return {
         createSetPaper,
         getPapers,
@@ -22,6 +23,8 @@ export const useSetPaper = () => {
         getPaper,
         updatePaper,
         deletePaper,
-        previewPaper
+        previewPaper,
+        uploadDocument,
+        deleteDocument
     }
 }

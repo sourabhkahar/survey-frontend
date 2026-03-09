@@ -28,7 +28,7 @@
             :cols="index != (fields.length-1) ? 12 : 4"
           >
             <v-btn
-              v-if="index == (fields.length-1)"
+              v-if="index == (fields.length-1) && props.sectionType != 'single_image' && props.sectionType != 'drawing'"
               type="button"
               icon="mdi-plus"
               variant="text"
@@ -77,6 +77,20 @@
             :qidx="index"
             :questions-index="props.questionsIndex"
           />
+
+          <MultiDraw
+            v-if="props.sectionType == cofigSectionOption.drawing"
+            :qidx="index"
+            :questions-index="props.questionsIndex"
+            :question-id="fields[index].value.id"
+          />
+
+          <SingleImage
+            v-if="props.sectionType == cofigSectionOption.single_image"
+            :qidx="index"
+            :questions-index="props.questionsIndex"
+            :question-id="fields[index].value.id"
+          />
         </v-card>
       </v-col>
     </v-row>
@@ -95,9 +109,13 @@ const props = defineProps({
 })
 
 import { useFieldArray, useFormErrors } from 'vee-validate'
-import { VNumberInput } from 'vuetify/labs/VNumberInput';
 import config from '@/config';
+import MatchAB from './MatchAB.vue';
+import Options from './Options.vue';
+import MultiDraw from './MultiDraw.vue';
+import SingleImage from './SingleImage.vue';
 import { mapArrayinKeyValue  } from '@/utils/helpers'
+import { VNumberInput } from 'vuetify/labs/VNumberInput';
 const qidx = props.questionsIndex > -1 ? `sections.${props.questionsIndex}.questions` : 'questions'
 const { fields, push, remove } = useFieldArray(qidx)
 const errors = useFormErrors()
